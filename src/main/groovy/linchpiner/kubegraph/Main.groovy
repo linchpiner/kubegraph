@@ -1,6 +1,9 @@
 package linchpiner.kubegraph
 
 import groovy.transform.Canonical
+import linchpiner.kubegraph.file.ChangeConsumer
+import linchpiner.kubegraph.file.DataSetChangeConsumer
+import linchpiner.kubegraph.file.HtmlChangeConsumer
 import linchpiner.kubegraph.file.KubegraphReader
 import linchpiner.kubegraph.file.KubegraphWriter
 import linchpiner.kubegraph.http.KubegraphServer
@@ -24,6 +27,10 @@ class Main {
         reader: [
             enabled:    true,
             file:       "rec/session.yaml",
+        ],
+        html: [
+            enabled:    false,
+            file:       "rec/session.html"
         ]
     ]
     
@@ -67,7 +74,12 @@ class Main {
     }
     
     def startReader() {
-        KubegraphReader reader = new KubegraphReader(file: new File(options.reader.file), dataSet: dataSet)
+        ChangeConsumer consumer = options.watcher.enabled
+                ? new DataSetChangeConsumer(dataSet: dataSet)
+                : new HtmlChangeConsumer(new File(options.html.file))
+        KubegraphReader reader = new KubegraphReader(
+                file: new File(options.reader.file),
+                consumer: consumer)
         reader.start()
     }
     
@@ -83,10 +95,11 @@ class Main {
                 stopAtNonOption: false)
         cli.with {
             h longOpt: "help", "Show usage information"
-            f longOpt: "file", args: 1, argName: "file", "File with cluster events"
+            f longOpt: "file", args: 1, argName: "file.yaml", "File with cluster events"
             c longOpt: "config", args: 1, argName: "config", "K8s config ('${this.options.watcher.config}')"
             p longOpt: "port", args: 1, argName: "port", "HTTP server port (${this.options.http.port}), 0 to disable"
             n longOpt: "ns", args: 1, argName: "namespace", "K8s namespace ('${this.options.watcher.namespace}')"
+            _ longOpt: "html", args: 1, argName: "file.html", "Generate html file"
         }
         def opts = cli.parse(args)
         def arguments = opts?.arguments()
@@ -109,6 +122,11 @@ class Main {
                 options.watcher.enabled = false
                 options.reader.enabled = true
                 if (opts.f) options.reader.file = opts.f
+                if (opts.html) {
+                    options.html.enabled = true
+                    options.http.enabled = false
+                    options.html.file = opts.html
+                }
                 break
             case "help":
             default:

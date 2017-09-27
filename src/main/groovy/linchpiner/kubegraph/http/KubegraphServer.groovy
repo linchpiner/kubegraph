@@ -26,7 +26,8 @@ class KubegraphServer {
         handler.resourceBase = '.'
         handler.addServlet(DataSetServlet, '/js/dataset.js')
         handler.addServlet(UpdatesServlet, '/js/updates.js')
-        handler.addServlet(DefaultServlet, '/').setInitParameter('resourceBase', './web')
+        handler.addServlet(StaticServlet,  '/')
+        handler.addServlet(DefaultServlet, '/web').setInitParameter('resourceBase', './web')
         server.handler = handler
         server.start()
     }

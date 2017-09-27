@@ -16,21 +16,23 @@ import linchpiner.kubegraph.model.Watchable
 class KubegraphReader {
     
     File file
-    DataSet dataSet
-    long delay = 100L
+    ChangeConsumer consumer
     
     def start() {
-        log.info "Play started"
+        consumer.start()
+        log.info "KubegraphReader loading from '${file}'"
+        
         new Yaml().load(file.text).each {
             def yc = it.change
             Change c = new Change(
                     type: Change.Type.valueOf(yc.type),
                     timestamp: yc.timestamp,
                     watchable: watchable(yc))
-            toDataSet(c, c.watchable)
-            Thread.sleep(delay)
+            consumer.consume(c)
         }
-        log.info "Play finished"
+        
+        consumer.stop()
+        log.info "KubegraphReader finished"
     }
     
     Watchable watchable(yc) {
@@ -42,26 +44,4 @@ class KubegraphReader {
         }
     }
     
-    def toDataSet(Change c, KNode node) {
-        switch (c.type) {
-            case Change.Type.CREATE:
-                dataSet.create(node)
-                break
-            case Change.Type.UPDATE:
-                dataSet.update(node)
-                break
-            case Change.Type.DELETE:
-                dataSet.delete(node)
-                break
-        }
-    }
-    
-    def toDataSet(Change c, KEdge edge) {
-        switch (c.type) {
-            case Change.Type.CREATE:
-                dataSet.link(edge.from, edge.to)
-                break
-        }
-    }
-
 }
