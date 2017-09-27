@@ -1,0 +1,112 @@
+<html>
+    <head>
+        <title>Kubegraph</title>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.20.1/vis.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    </head>
+    <body>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.20.1/vis.min.js"></script>
+        <script type="text/javascript" src="js/dataset.js"></script>
+
+        <div class="container bs-docs-container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="kubegraph"></div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            var nodes = new vis.DataSet(_nodes);
+            var edges = new vis.DataSet(_edges);
+            var container = document.getElementById('kubegraph');
+            var data = {
+                nodes: nodes,
+                edges: edges
+            };
+            var options = {
+                autoResize: true,
+                layout: {
+                    improvedLayout: true,
+                },
+                groups: {
+                    node: {
+	                    shape: 'icon',
+	                    icon: {
+	                        face: 'FontAwesome',
+	                        code: '\uf233',
+	                        size: 50,
+	                        color: '#3366ff'
+	                    }
+                    },
+                    replicationcontroller: {
+                        shape: 'icon',
+                        icon: {
+                            face: 'FontAwesome',
+                            code: '\uf0c5',
+                            size: 50,
+                            color: '#3366ff'
+                        }
+                    },
+                    deployment: {
+                        shape: 'icon',
+                        icon: {
+                            face: 'FontAwesome',
+                            code: '\uf085',
+                            size: 50,
+                            color: '#3366ff'
+                        }
+                    },
+                    pod: {
+                        shape: 'icon',
+                        icon: {
+                            face: 'FontAwesome',
+                            code: '\uf1b2',
+                            size: 50,
+                            color: '#3366ff'
+                        }
+                    },
+                    replicaset: {
+                        shape: 'icon',
+                        icon: {
+                            face: 'FontAwesome',
+                            code: '\uf013',
+                            size: 50,
+                            color: '#3366ff'
+                        }
+                    },
+                    service: {
+                        shape: 'icon',
+                        icon: {
+                            face: 'FontAwesome',
+                            code: '\uf0c2',
+                            size: 50,
+                            color: '#3366ff'
+                        }
+                    },
+                }
+            };
+            var network = new vis.Network(container, data, options);
+        </script>
+
+        <script type="text/javascript">
+            $(document).ready(function labsWorker() {
+                $.ajax({
+                    type: "GET",
+                    url: "js/updates.js",
+                    success: function(data) {
+                        console.log("Received: " + data);
+                    },
+                    complete: function() {
+                        setTimeout(labsWorker, 1000);
+                    }
+                });
+            });
+        </script>
+
+    </body>
+</html>
