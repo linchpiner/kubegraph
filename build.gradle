@@ -21,5 +21,9 @@ dependencies {
     testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
 }
 
-mainClassName = 'linchpiner.kubegraph.KubeGraph'
+mainClassName = 'linchpiner.kubegraph.Main'
+
+run {
+    args((findProperty("args") ?: "help").split())
+}
 
