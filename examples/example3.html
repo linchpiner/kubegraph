@@ -1,0 +1,358 @@
+<html>
+    <head>
+        <title>Kubegraph</title>
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.20.1/vis.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.20.1/vis.min.js"></script>
+
+        <div class="container bs-docs-container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="kubegraph"></div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            var nodes = new vis.DataSet([]);
+var edges = new vis.DataSet([]);
+var container = document.getElementById('kubegraph');
+
+var data = {
+    nodes: nodes,
+    edges: edges
+};
+
+var options = {
+    autoResize: true,
+    interaction: {
+        tooltipDelay: 120,
+        hover: true,
+        navigationButtons: true
+    },    
+    layout: {
+        improvedLayout: true,
+    },
+    groups: {
+        node: {
+            shape: 'icon',
+            icon: {
+                face: 'FontAwesome',
+                code: '\uf233',
+                size: 50,
+                color: '#3366ff'
+            }
+        },
+        replicationcontroller: {
+            shape: 'icon',
+            icon: {
+                face: 'FontAwesome',
+                code: '\uf0c5',
+                size: 50,
+                color: '#3366ff'
+            }
+        },
+        deployment: {
+            shape: 'icon',
+            icon: {
+                face: 'FontAwesome',
+                code: '\uf085',
+                size: 50,
+                color: '#3366ff'
+            }
+        },
+        pod: {
+            shape: 'icon',
+            icon: {
+                face: 'FontAwesome',
+                code: '\uf1b2',
+                size: 50,
+                color: '#3366ff'
+            }
+        },
+        replicaset: {
+            shape: 'icon',
+            icon: {
+                face: 'FontAwesome',
+                code: '\uf013',
+                size: 50,
+                color: '#3366ff'
+            }
+        },
+        service: {
+            shape: 'icon',
+            icon: {
+                face: 'FontAwesome',
+                code: '\uf0c2',
+                size: 50,
+                color: '#3366ff'
+            }
+        },
+    }
+};
+
+var network = new vis.Network(container, data, options);
+
+var _events = [
+[100, 'nodes.update({"id":"a7411721-a3c8-11e7-a809-06ea8d05257f","label":"carts-db-1721187500","group":"replicaset","title":"Kind: replicaset<br/>Name: carts-db-1721187500<br/>Version: 590579"});'],
+[100, 'nodes.update({"id":"a73f803f-a3c8-11e7-a809-06ea8d05257f","label":"carts-db","group":"deployment","title":"Kind: deployment<br/>Name: carts-db<br/>Version: 590578"});'],
+[100, 'nodes.update({"id":"a7437cdc-a3c8-11e7-a809-06ea8d05257f","label":"carts-db-1721187500-mkxw2","group":"pod","title":"Kind: pod<br/>Name: carts-db-1721187500-mkxw2<br/>Version: 590582"});'],
+[100, 'nodes.update({"id":"a7491e17-a3c8-11e7-a809-06ea8d05257f","label":"carts-db","group":"service","title":"Kind: service<br/>Name: carts-db<br/>Version: 590589"});'],
+[100, 'edges.update({"id":"a7411721-a3c8-11e7-a809-06ea8d05257fa73f803f-a3c8-11e7-a809-06ea8d05257f","from":"a7411721-a3c8-11e7-a809-06ea8d05257f","to":"a73f803f-a3c8-11e7-a809-06ea8d05257f"});'],
+[100, 'edges.update({"id":"a7437cdc-a3c8-11e7-a809-06ea8d05257fa7411721-a3c8-11e7-a809-06ea8d05257f","from":"a7437cdc-a3c8-11e7-a809-06ea8d05257f","to":"a7411721-a3c8-11e7-a809-06ea8d05257f"});'],
+[100, 'nodes.update({"id":"a73f803f-a3c8-11e7-a809-06ea8d05257f","label":"carts-db","group":"deployment","title":"Kind: deployment<br/>Name: carts-db<br/>Version: 590581"});'],
+[100, 'nodes.update({"id":"a7411721-a3c8-11e7-a809-06ea8d05257f","label":"carts-db-1721187500","group":"replicaset","title":"Kind: replicaset<br/>Name: carts-db-1721187500<br/>Version: 590585"});'],
+[100, 'nodes.update({"id":"a7437cdc-a3c8-11e7-a809-06ea8d05257f","label":"carts-db-1721187500-mkxw2","group":"pod","title":"Kind: pod<br/>Name: carts-db-1721187500-mkxw2<br/>Version: 590584"});'],
+[100, 'nodes.update({"id":"a73f803f-a3c8-11e7-a809-06ea8d05257f","label":"carts-db","group":"deployment","title":"Kind: deployment<br/>Name: carts-db<br/>Version: 590583"});'],
+[100, 'nodes.update({"id":"a73f803f-a3c8-11e7-a809-06ea8d05257f","label":"carts-db","group":"deployment","title":"Kind: deployment<br/>Name: carts-db<br/>Version: 590592"});'],
+[100, 'nodes.update({"id":"a7437cdc-a3c8-11e7-a809-06ea8d05257f","label":"carts-db-1721187500-mkxw2","group":"pod","title":"Kind: pod<br/>Name: carts-db-1721187500-mkxw2<br/>Version: 590587"});'],
+[100, 'nodes.update({"id":"a74df900-a3c8-11e7-a809-06ea8d05257f","label":"carts","group":"deployment","title":"Kind: deployment<br/>Name: carts<br/>Version: 590593"});'],
+[100, 'nodes.update({"id":"a7411721-a3c8-11e7-a809-06ea8d05257f","label":"carts-db-1721187500","group":"replicaset","title":"Kind: replicaset<br/>Name: carts-db-1721187500<br/>Version: 590588"});'],
+[100, 'nodes.update({"id":"a753ba1d-a3c8-11e7-a809-06ea8d05257f","label":"carts-2469883122","group":"replicaset","title":"Kind: replicaset<br/>Name: carts-2469883122<br/>Version: 590595"});'],
+[100, 'nodes.update({"id":"a74df900-a3c8-11e7-a809-06ea8d05257f","label":"carts","group":"deployment","title":"Kind: deployment<br/>Name: carts<br/>Version: 590597"});'],
+[100, 'nodes.update({"id":"a754a719-a3c8-11e7-a809-06ea8d05257f","label":"carts-2469883122-v09v6","group":"pod","title":"Kind: pod<br/>Name: carts-2469883122-v09v6<br/>Version: 590596"});'],
+[100, 'edges.update({"id":"a754a719-a3c8-11e7-a809-06ea8d05257fa753ba1d-a3c8-11e7-a809-06ea8d05257f","from":"a754a719-a3c8-11e7-a809-06ea8d05257f","to":"a753ba1d-a3c8-11e7-a809-06ea8d05257f"});'],
+[100, 'edges.update({"id":"a753ba1d-a3c8-11e7-a809-06ea8d05257fa74df900-a3c8-11e7-a809-06ea8d05257f","from":"a753ba1d-a3c8-11e7-a809-06ea8d05257f","to":"a74df900-a3c8-11e7-a809-06ea8d05257f"});'],
+[100, 'nodes.update({"id":"a74df900-a3c8-11e7-a809-06ea8d05257f","label":"carts","group":"deployment","title":"Kind: deployment<br/>Name: carts<br/>Version: 590604"});'],
+[100, 'nodes.update({"id":"a754a719-a3c8-11e7-a809-06ea8d05257f","label":"carts-2469883122-v09v6","group":"pod","title":"Kind: pod<br/>Name: carts-2469883122-v09v6<br/>Version: 590599"});'],
+[100, 'nodes.update({"id":"a753ba1d-a3c8-11e7-a809-06ea8d05257f","label":"carts-2469883122","group":"replicaset","title":"Kind: replicaset<br/>Name: carts-2469883122<br/>Version: 590600"});'],
+[100, 'nodes.update({"id":"a759c1ed-a3c8-11e7-a809-06ea8d05257f","label":"carts","group":"service","title":"Kind: service<br/>Name: carts<br/>Version: 590607"});'],
+[100, 'nodes.update({"id":"a74df900-a3c8-11e7-a809-06ea8d05257f","label":"carts","group":"deployment","title":"Kind: deployment<br/>Name: carts<br/>Version: 590608"});'],
+[100, 'nodes.update({"id":"a753ba1d-a3c8-11e7-a809-06ea8d05257f","label":"carts-2469883122","group":"replicaset","title":"Kind: replicaset<br/>Name: carts-2469883122<br/>Version: 590603"});'],
+[100, 'nodes.update({"id":"a76046bd-a3c8-11e7-a809-06ea8d05257f","label":"catalogue-db","group":"deployment","title":"Kind: deployment<br/>Name: catalogue-db<br/>Version: 590610"});'],
+[100, 'nodes.update({"id":"a754a719-a3c8-11e7-a809-06ea8d05257f","label":"carts-2469883122-v09v6","group":"pod","title":"Kind: pod<br/>Name: carts-2469883122-v09v6<br/>Version: 590602"});'],
+[100, 'nodes.update({"id":"a7628131-a3c8-11e7-a809-06ea8d05257f","label":"catalogue-db-1846494424-txx89","group":"pod","title":"Kind: pod<br/>Name: catalogue-db-1846494424-txx89<br/>Version: 590612"});'],
+[100, 'nodes.update({"id":"a76046bd-a3c8-11e7-a809-06ea8d05257f","label":"catalogue-db","group":"deployment","title":"Kind: deployment<br/>Name: catalogue-db<br/>Version: 590613"});'],
+[100, 'nodes.update({"id":"a7616c9a-a3c8-11e7-a809-06ea8d05257f","label":"catalogue-db-1846494424","group":"replicaset","title":"Kind: replicaset<br/>Name: catalogue-db-1846494424<br/>Version: 590611"});'],
+[100, 'edges.update({"id":"a7628131-a3c8-11e7-a809-06ea8d05257fa7616c9a-a3c8-11e7-a809-06ea8d05257f","from":"a7628131-a3c8-11e7-a809-06ea8d05257f","to":"a7616c9a-a3c8-11e7-a809-06ea8d05257f"});'],
+[100, 'edges.update({"id":"a7616c9a-a3c8-11e7-a809-06ea8d05257fa76046bd-a3c8-11e7-a809-06ea8d05257f","from":"a7616c9a-a3c8-11e7-a809-06ea8d05257f","to":"a76046bd-a3c8-11e7-a809-06ea8d05257f"});'],
+[100, 'nodes.update({"id":"a7628131-a3c8-11e7-a809-06ea8d05257f","label":"catalogue-db-1846494424-txx89","group":"pod","title":"Kind: pod<br/>Name: catalogue-db-1846494424-txx89<br/>Version: 590614"});'],
+[100, 'nodes.update({"id":"a7616c9a-a3c8-11e7-a809-06ea8d05257f","label":"catalogue-db-1846494424","group":"replicaset","title":"Kind: replicaset<br/>Name: catalogue-db-1846494424<br/>Version: 590616"});'],
+[100, 'nodes.update({"id":"a76046bd-a3c8-11e7-a809-06ea8d05257f","label":"catalogue-db","group":"deployment","title":"Kind: deployment<br/>Name: catalogue-db<br/>Version: 590617"});'],
+[100, 'nodes.update({"id":"a7616c9a-a3c8-11e7-a809-06ea8d05257f","label":"catalogue-db-1846494424","group":"replicaset","title":"Kind: replicaset<br/>Name: catalogue-db-1846494424<br/>Version: 590619"});'],
+[100, 'nodes.update({"id":"a769ad86-a3c8-11e7-a809-06ea8d05257f","label":"catalogue-db","group":"service","title":"Kind: service<br/>Name: catalogue-db<br/>Version: 590624"});'],
+[100, 'nodes.update({"id":"a76046bd-a3c8-11e7-a809-06ea8d05257f","label":"catalogue-db","group":"deployment","title":"Kind: deployment<br/>Name: catalogue-db<br/>Version: 590622"});'],
+[100, 'nodes.update({"id":"a7628131-a3c8-11e7-a809-06ea8d05257f","label":"catalogue-db-1846494424-txx89","group":"pod","title":"Kind: pod<br/>Name: catalogue-db-1846494424-txx89<br/>Version: 590618"});'],
+[100, 'nodes.update({"id":"a76eda2f-a3c8-11e7-a809-06ea8d05257f","label":"catalogue","group":"deployment","title":"Kind: deployment<br/>Name: catalogue<br/>Version: 590625"});'],
+[100, 'nodes.update({"id":"a7710640-a3c8-11e7-a809-06ea8d05257f","label":"catalogue-4293036822","group":"replicaset","title":"Kind: replicaset<br/>Name: catalogue-4293036822<br/>Version: 590627"});'],
+[100, 'edges.update({"id":"a7710640-a3c8-11e7-a809-06ea8d05257fa76eda2f-a3c8-11e7-a809-06ea8d05257f","from":"a7710640-a3c8-11e7-a809-06ea8d05257f","to":"a76eda2f-a3c8-11e7-a809-06ea8d05257f"});'],
+[100, 'nodes.update({"id":"a7723223-a3c8-11e7-a809-06ea8d05257f","label":"catalogue-4293036822-rh4d4","group":"pod","title":"Kind: pod<br/>Name: catalogue-4293036822-rh4d4<br/>Version: 590628"});'],
+[100, 'edges.update({"id":"a7723223-a3c8-11e7-a809-06ea8d05257fa7710640-a3c8-11e7-a809-06ea8d05257f","from":"a7723223-a3c8-11e7-a809-06ea8d05257f","to":"a7710640-a3c8-11e7-a809-06ea8d05257f"});'],
+[100, 'nodes.update({"id":"a76eda2f-a3c8-11e7-a809-06ea8d05257f","label":"catalogue","group":"deployment","title":"Kind: deployment<br/>Name: catalogue<br/>Version: 590629"});'],
+[100, 'nodes.update({"id":"a7723223-a3c8-11e7-a809-06ea8d05257f","label":"catalogue-4293036822-rh4d4","group":"pod","title":"Kind: pod<br/>Name: catalogue-4293036822-rh4d4<br/>Version: 590630"});'],
+[100, 'nodes.update({"id":"a7710640-a3c8-11e7-a809-06ea8d05257f","label":"catalogue-4293036822","group":"replicaset","title":"Kind: replicaset<br/>Name: catalogue-4293036822<br/>Version: 590632"});'],
+[100, 'nodes.update({"id":"a7784648-a3c8-11e7-a809-06ea8d05257f","label":"catalogue","group":"service","title":"Kind: service<br/>Name: catalogue<br/>Version: 590637"});'],
+[100, 'nodes.update({"id":"a7710640-a3c8-11e7-a809-06ea8d05257f","label":"catalogue-4293036822","group":"replicaset","title":"Kind: replicaset<br/>Name: catalogue-4293036822<br/>Version: 590640"});'],
+[100, 'nodes.update({"id":"a7723223-a3c8-11e7-a809-06ea8d05257f","label":"catalogue-4293036822-rh4d4","group":"pod","title":"Kind: pod<br/>Name: catalogue-4293036822-rh4d4<br/>Version: 590638"});'],
+[100, 'nodes.update({"id":"a78120a7-a3c8-11e7-a809-06ea8d05257f","label":"front-end-2337481689-0djrh","group":"pod","title":"Kind: pod<br/>Name: front-end-2337481689-0djrh<br/>Version: 590647"});'],
+[100, 'nodes.update({"id":"a77f2b86-a3c8-11e7-a809-06ea8d05257f","label":"front-end-2337481689","group":"replicaset","title":"Kind: replicaset<br/>Name: front-end-2337481689<br/>Version: 590646"});'],
+[100, 'nodes.update({"id":"a76eda2f-a3c8-11e7-a809-06ea8d05257f","label":"catalogue","group":"deployment","title":"Kind: deployment<br/>Name: catalogue<br/>Version: 590639"});'],
+[100, 'edges.update({"id":"a78120a7-a3c8-11e7-a809-06ea8d05257fa77f2b86-a3c8-11e7-a809-06ea8d05257f","from":"a78120a7-a3c8-11e7-a809-06ea8d05257f","to":"a77f2b86-a3c8-11e7-a809-06ea8d05257f"});'],
+[100, 'edges.update({"id":"a77f2b86-a3c8-11e7-a809-06ea8d05257fa77d8424-a3c8-11e7-a809-06ea8d05257f","from":"a77f2b86-a3c8-11e7-a809-06ea8d05257f","to":"a77d8424-a3c8-11e7-a809-06ea8d05257f"});'],
+[100, 'nodes.update({"id":"a78120a7-a3c8-11e7-a809-06ea8d05257f","label":"front-end-2337481689-0djrh","group":"pod","title":"Kind: pod<br/>Name: front-end-2337481689-0djrh<br/>Version: 590651"});'],
+[100, 'nodes.update({"id":"a77d8424-a3c8-11e7-a809-06ea8d05257f","label":"front-end","group":"deployment","title":"Kind: deployment<br/>Name: front-end<br/>Version: 590642"});'],
+[100, 'nodes.update({"id":"a77f2b86-a3c8-11e7-a809-06ea8d05257f","label":"front-end-2337481689","group":"replicaset","title":"Kind: replicaset<br/>Name: front-end-2337481689<br/>Version: 590652"});'],
+[100, 'nodes.update({"id":"a77d8424-a3c8-11e7-a809-06ea8d05257f","label":"front-end","group":"deployment","title":"Kind: deployment<br/>Name: front-end<br/>Version: 590648"});'],
+[100, 'nodes.update({"id":"a76eda2f-a3c8-11e7-a809-06ea8d05257f","label":"catalogue","group":"deployment","title":"Kind: deployment<br/>Name: catalogue<br/>Version: 590650"});'],
+[100, 'nodes.update({"id":"a78120a7-a3c8-11e7-a809-06ea8d05257f","label":"front-end-2337481689-0djrh","group":"pod","title":"Kind: pod<br/>Name: front-end-2337481689-0djrh<br/>Version: 590654"});'],
+[100, 'nodes.update({"id":"a77d8424-a3c8-11e7-a809-06ea8d05257f","label":"front-end","group":"deployment","title":"Kind: deployment<br/>Name: front-end<br/>Version: 590657"});'],
+[100, 'nodes.update({"id":"a77f2b86-a3c8-11e7-a809-06ea8d05257f","label":"front-end-2337481689","group":"replicaset","title":"Kind: replicaset<br/>Name: front-end-2337481689<br/>Version: 590660"});'],
+[100, 'nodes.update({"id":"a78e0289-a3c8-11e7-a809-06ea8d05257f","label":"front-end","group":"service","title":"Kind: service<br/>Name: front-end<br/>Version: 590662"});'],
+[100, 'nodes.update({"id":"a77d8424-a3c8-11e7-a809-06ea8d05257f","label":"front-end","group":"deployment","title":"Kind: deployment<br/>Name: front-end<br/>Version: 590664"});'],
+[100, 'nodes.update({"id":"a7930df5-a3c8-11e7-a809-06ea8d05257f","label":"orders-db","group":"deployment","title":"Kind: deployment<br/>Name: orders-db<br/>Version: 590665"});'],
+[100, 'nodes.update({"id":"a79709a6-a3c8-11e7-a809-06ea8d05257f","label":"orders-db-3728196820","group":"replicaset","title":"Kind: replicaset<br/>Name: orders-db-3728196820<br/>Version: 590667"});'],
+[100, 'edges.update({"id":"a79709a6-a3c8-11e7-a809-06ea8d05257fa7930df5-a3c8-11e7-a809-06ea8d05257f","from":"a79709a6-a3c8-11e7-a809-06ea8d05257f","to":"a7930df5-a3c8-11e7-a809-06ea8d05257f"});'],
+[100, 'nodes.update({"id":"a7930df5-a3c8-11e7-a809-06ea8d05257f","label":"orders-db","group":"deployment","title":"Kind: deployment<br/>Name: orders-db<br/>Version: 590668"});'],
+[100, 'nodes.update({"id":"a79b2ff2-a3c8-11e7-a809-06ea8d05257f","label":"orders-db-3728196820-51ltt","group":"pod","title":"Kind: pod<br/>Name: orders-db-3728196820-51ltt<br/>Version: 590670"});'],
+[100, 'edges.update({"id":"a79b2ff2-a3c8-11e7-a809-06ea8d05257fa79709a6-a3c8-11e7-a809-06ea8d05257f","from":"a79b2ff2-a3c8-11e7-a809-06ea8d05257f","to":"a79709a6-a3c8-11e7-a809-06ea8d05257f"});'],
+[100, 'nodes.update({"id":"a79b2ff2-a3c8-11e7-a809-06ea8d05257f","label":"orders-db-3728196820-51ltt","group":"pod","title":"Kind: pod<br/>Name: orders-db-3728196820-51ltt<br/>Version: 590672"});'],
+[100, 'nodes.update({"id":"a79709a6-a3c8-11e7-a809-06ea8d05257f","label":"orders-db-3728196820","group":"replicaset","title":"Kind: replicaset<br/>Name: orders-db-3728196820<br/>Version: 590674"});'],
+[100, 'nodes.update({"id":"a7930df5-a3c8-11e7-a809-06ea8d05257f","label":"orders-db","group":"deployment","title":"Kind: deployment<br/>Name: orders-db<br/>Version: 590673"});'],
+[100, 'nodes.update({"id":"a79d2ecd-a3c8-11e7-a809-06ea8d05257f","label":"orders-db","group":"service","title":"Kind: service<br/>Name: orders-db<br/>Version: 590676"});'],
+[100, 'nodes.update({"id":"a79b2ff2-a3c8-11e7-a809-06ea8d05257f","label":"orders-db-3728196820-51ltt","group":"pod","title":"Kind: pod<br/>Name: orders-db-3728196820-51ltt<br/>Version: 590678"});'],
+[100, 'nodes.update({"id":"a79709a6-a3c8-11e7-a809-06ea8d05257f","label":"orders-db-3728196820","group":"replicaset","title":"Kind: replicaset<br/>Name: orders-db-3728196820<br/>Version: 590680"});'],
+[100, 'nodes.update({"id":"a7a4573d-a3c8-11e7-a809-06ea8d05257f","label":"orders","group":"deployment","title":"Kind: deployment<br/>Name: orders<br/>Version: 590681"});'],
+[100, 'nodes.update({"id":"a7930df5-a3c8-11e7-a809-06ea8d05257f","label":"orders-db","group":"deployment","title":"Kind: deployment<br/>Name: orders-db<br/>Version: 590683"});'],
+[100, 'nodes.update({"id":"a7a66c0f-a3c8-11e7-a809-06ea8d05257f","label":"orders-733484335","group":"replicaset","title":"Kind: replicaset<br/>Name: orders-733484335<br/>Version: 590684"});'],
+[100, 'edges.update({"id":"a7a66c0f-a3c8-11e7-a809-06ea8d05257fa7a4573d-a3c8-11e7-a809-06ea8d05257f","from":"a7a66c0f-a3c8-11e7-a809-06ea8d05257f","to":"a7a4573d-a3c8-11e7-a809-06ea8d05257f"});'],
+[100, 'nodes.update({"id":"a7a8c625-a3c8-11e7-a809-06ea8d05257f","label":"orders-733484335-s7m75","group":"pod","title":"Kind: pod<br/>Name: orders-733484335-s7m75<br/>Version: 590685"});'],
+[100, 'edges.update({"id":"a7a8c625-a3c8-11e7-a809-06ea8d05257fa7a66c0f-a3c8-11e7-a809-06ea8d05257f","from":"a7a8c625-a3c8-11e7-a809-06ea8d05257f","to":"a7a66c0f-a3c8-11e7-a809-06ea8d05257f"});'],
+[100, 'nodes.update({"id":"a7a66c0f-a3c8-11e7-a809-06ea8d05257f","label":"orders-733484335","group":"replicaset","title":"Kind: replicaset<br/>Name: orders-733484335<br/>Version: 590687"});'],
+[100, 'nodes.update({"id":"a7a4573d-a3c8-11e7-a809-06ea8d05257f","label":"orders","group":"deployment","title":"Kind: deployment<br/>Name: orders<br/>Version: 590686"});'],
+[100, 'nodes.update({"id":"a7a8c625-a3c8-11e7-a809-06ea8d05257f","label":"orders-733484335-s7m75","group":"pod","title":"Kind: pod<br/>Name: orders-733484335-s7m75<br/>Version: 590688"});'],
+[100, 'nodes.update({"id":"a7a66c0f-a3c8-11e7-a809-06ea8d05257f","label":"orders-733484335","group":"replicaset","title":"Kind: replicaset<br/>Name: orders-733484335<br/>Version: 590691"});'],
+[100, 'nodes.update({"id":"a7ae899a-a3c8-11e7-a809-06ea8d05257f","label":"orders","group":"service","title":"Kind: service<br/>Name: orders<br/>Version: 590694"});'],
+[100, 'nodes.update({"id":"a7a8c625-a3c8-11e7-a809-06ea8d05257f","label":"orders-733484335-s7m75","group":"pod","title":"Kind: pod<br/>Name: orders-733484335-s7m75<br/>Version: 590693"});'],
+[100, 'nodes.update({"id":"a7b4ce35-a3c8-11e7-a809-06ea8d05257f","label":"payment","group":"deployment","title":"Kind: deployment<br/>Name: payment<br/>Version: 590698"});'],
+[100, 'nodes.update({"id":"a7bd13bd-a3c8-11e7-a809-06ea8d05257f","label":"payment","group":"service","title":"Kind: service<br/>Name: payment<br/>Version: 590703"});'],
+[100, 'nodes.update({"id":"a7c1106c-a3c8-11e7-a809-06ea8d05257f","label":"payment-3050936124","group":"replicaset","title":"Kind: replicaset<br/>Name: payment-3050936124<br/>Version: 590704"});'],
+[100, 'edges.update({"id":"a7c1106c-a3c8-11e7-a809-06ea8d05257fa7b4ce35-a3c8-11e7-a809-06ea8d05257f","from":"a7c1106c-a3c8-11e7-a809-06ea8d05257f","to":"a7b4ce35-a3c8-11e7-a809-06ea8d05257f"});'],
+[100, 'nodes.update({"id":"a7c2e4ae-a3c8-11e7-a809-06ea8d05257f","label":"queue-master","group":"deployment","title":"Kind: deployment<br/>Name: queue-master<br/>Version: 590705"});'],
+[100, 'nodes.update({"id":"a7c44714-a3c8-11e7-a809-06ea8d05257f","label":"payment-3050936124-f1spm","group":"pod","title":"Kind: pod<br/>Name: payment-3050936124-f1spm<br/>Version: 590707"});'],
+[100, 'edges.update({"id":"a7c44714-a3c8-11e7-a809-06ea8d05257fa7c1106c-a3c8-11e7-a809-06ea8d05257f","from":"a7c44714-a3c8-11e7-a809-06ea8d05257f","to":"a7c1106c-a3c8-11e7-a809-06ea8d05257f"});'],
+[100, 'nodes.update({"id":"a7c44714-a3c8-11e7-a809-06ea8d05257f","label":"payment-3050936124-f1spm","group":"pod","title":"Kind: pod<br/>Name: payment-3050936124-f1spm<br/>Version: 590708"});'],
+[100, 'nodes.update({"id":"a7c1106c-a3c8-11e7-a809-06ea8d05257f","label":"payment-3050936124","group":"replicaset","title":"Kind: replicaset<br/>Name: payment-3050936124<br/>Version: 590710"});'],
+[100, 'nodes.update({"id":"a7a4573d-a3c8-11e7-a809-06ea8d05257f","label":"orders","group":"deployment","title":"Kind: deployment<br/>Name: orders<br/>Version: 590711"});'],
+[100, 'nodes.update({"id":"a7b4ce35-a3c8-11e7-a809-06ea8d05257f","label":"payment","group":"deployment","title":"Kind: deployment<br/>Name: payment<br/>Version: 590719"});'],
+[100, 'nodes.update({"id":"a7ccde99-a3c8-11e7-a809-06ea8d05257f","label":"queue-master","group":"service","title":"Kind: service<br/>Name: queue-master<br/>Version: 590717"});'],
+[100, 'nodes.update({"id":"a7c44714-a3c8-11e7-a809-06ea8d05257f","label":"payment-3050936124-f1spm","group":"pod","title":"Kind: pod<br/>Name: payment-3050936124-f1spm<br/>Version: 590721"});'],
+[100, 'nodes.update({"id":"a7d4a184-a3c8-11e7-a809-06ea8d05257f","label":"rabbitmq","group":"deployment","title":"Kind: deployment<br/>Name: rabbitmq<br/>Version: 590722"});'],
+[100, 'nodes.update({"id":"a7e32b9e-a3c8-11e7-a809-06ea8d05257f","label":"rabbitmq","group":"service","title":"Kind: service<br/>Name: rabbitmq<br/>Version: 590729"});'],
+[100, 'nodes.update({"id":"a7e1519b-a3c8-11e7-a809-06ea8d05257f","label":"queue-master-2067646375","group":"replicaset","title":"Kind: replicaset<br/>Name: queue-master-2067646375<br/>Version: 590725"});'],
+[100, 'edges.update({"id":"a7e1519b-a3c8-11e7-a809-06ea8d05257fa7c2e4ae-a3c8-11e7-a809-06ea8d05257f","from":"a7e1519b-a3c8-11e7-a809-06ea8d05257f","to":"a7c2e4ae-a3c8-11e7-a809-06ea8d05257f"});'],
+[100, 'nodes.update({"id":"a7c1106c-a3c8-11e7-a809-06ea8d05257f","label":"payment-3050936124","group":"replicaset","title":"Kind: replicaset<br/>Name: payment-3050936124<br/>Version: 590726"});'],
+[100, 'nodes.update({"id":"a7e90061-a3c8-11e7-a809-06ea8d05257f","label":"queue-master-2067646375-bdl6m","group":"pod","title":"Kind: pod<br/>Name: queue-master-2067646375-bdl6m<br/>Version: 590732"});'],
+[100, 'edges.update({"id":"a7e90061-a3c8-11e7-a809-06ea8d05257fa7e1519b-a3c8-11e7-a809-06ea8d05257f","from":"a7e90061-a3c8-11e7-a809-06ea8d05257f","to":"a7e1519b-a3c8-11e7-a809-06ea8d05257f"});'],
+[100, 'nodes.update({"id":"a7e8ce51-a3c8-11e7-a809-06ea8d05257f","label":"shipping","group":"deployment","title":"Kind: deployment<br/>Name: shipping<br/>Version: 590731"});'],
+[100, 'nodes.update({"id":"a7e90061-a3c8-11e7-a809-06ea8d05257f","label":"queue-master-2067646375-bdl6m","group":"pod","title":"Kind: pod<br/>Name: queue-master-2067646375-bdl6m<br/>Version: 590733"});'],
+[100, 'nodes.update({"id":"a7e90061-a3c8-11e7-a809-06ea8d05257f","label":"queue-master-2067646375-bdl6m","group":"pod","title":"Kind: pod<br/>Name: queue-master-2067646375-bdl6m<br/>Version: 590734"});'],
+[100, 'nodes.update({"id":"a7f55eb0-a3c8-11e7-a809-06ea8d05257f","label":"rabbitmq-241640118","group":"replicaset","title":"Kind: replicaset<br/>Name: rabbitmq-241640118<br/>Version: 590739"});'],
+[100, 'edges.update({"id":"a7f55eb0-a3c8-11e7-a809-06ea8d05257fa7d4a184-a3c8-11e7-a809-06ea8d05257f","from":"a7f55eb0-a3c8-11e7-a809-06ea8d05257f","to":"a7d4a184-a3c8-11e7-a809-06ea8d05257f"});'],
+[100, 'nodes.update({"id":"a7e1519b-a3c8-11e7-a809-06ea8d05257f","label":"queue-master-2067646375","group":"replicaset","title":"Kind: replicaset<br/>Name: queue-master-2067646375<br/>Version: 590740"});'],
+[100, 'nodes.update({"id":"a7f5823b-a3c8-11e7-a809-06ea8d05257f","label":"shipping","group":"service","title":"Kind: service<br/>Name: shipping<br/>Version: 590741"});'],
+[100, 'nodes.update({"id":"a7facf43-a3c8-11e7-a809-06ea8d05257f","label":"user-db","group":"deployment","title":"Kind: deployment<br/>Name: user-db<br/>Version: 590743"});'],
+[100, 'nodes.update({"id":"a7c2e4ae-a3c8-11e7-a809-06ea8d05257f","label":"queue-master","group":"deployment","title":"Kind: deployment<br/>Name: queue-master<br/>Version: 590745"});'],
+[100, 'nodes.update({"id":"a803ac56-a3c8-11e7-a809-06ea8d05257f","label":"user-db","group":"service","title":"Kind: service<br/>Name: user-db<br/>Version: 590749"});'],
+[100, 'nodes.update({"id":"a80921e2-a3c8-11e7-a809-06ea8d05257f","label":"user","group":"deployment","title":"Kind: deployment<br/>Name: user<br/>Version: 590751"});'],
+[100, 'nodes.update({"id":"a80b1bc2-a3c8-11e7-a809-06ea8d05257f","label":"shipping-2463450563","group":"replicaset","title":"Kind: replicaset<br/>Name: shipping-2463450563<br/>Version: 590754"});'],
+[100, 'edges.update({"id":"a80b1bc2-a3c8-11e7-a809-06ea8d05257fa7e8ce51-a3c8-11e7-a809-06ea8d05257f","from":"a80b1bc2-a3c8-11e7-a809-06ea8d05257f","to":"a7e8ce51-a3c8-11e7-a809-06ea8d05257f"});'],
+[100, 'nodes.update({"id":"a811b61d-a3c8-11e7-a809-06ea8d05257f","label":"user","group":"service","title":"Kind: service<br/>Name: user<br/>Version: 590756"});'],
+[100, 'nodes.update({"id":"a7b4ce35-a3c8-11e7-a809-06ea8d05257f","label":"payment","group":"deployment","title":"Kind: deployment<br/>Name: payment<br/>Version: 590757"});'],
+[100, 'nodes.update({"id":"a812f888-a3c8-11e7-a809-06ea8d05257f","label":"rabbitmq-241640118-pc1z7","group":"pod","title":"Kind: pod<br/>Name: rabbitmq-241640118-pc1z7<br/>Version: 590758"});'],
+[100, 'edges.update({"id":"a812f888-a3c8-11e7-a809-06ea8d05257fa7f55eb0-a3c8-11e7-a809-06ea8d05257f","from":"a812f888-a3c8-11e7-a809-06ea8d05257f","to":"a7f55eb0-a3c8-11e7-a809-06ea8d05257f"});'],
+[100, 'nodes.update({"id":"a812f888-a3c8-11e7-a809-06ea8d05257f","label":"rabbitmq-241640118-pc1z7","group":"pod","title":"Kind: pod<br/>Name: rabbitmq-241640118-pc1z7<br/>Version: 590759"});'],
+[100, 'nodes.update({"id":"a812f888-a3c8-11e7-a809-06ea8d05257f","label":"rabbitmq-241640118-pc1z7","group":"pod","title":"Kind: pod<br/>Name: rabbitmq-241640118-pc1z7<br/>Version: 590763"});'],
+[100, 'nodes.update({"id":"a7d4a184-a3c8-11e7-a809-06ea8d05257f","label":"rabbitmq","group":"deployment","title":"Kind: deployment<br/>Name: rabbitmq<br/>Version: 590764"});'],
+[100, 'nodes.update({"id":"a821c2e3-a3c8-11e7-a809-06ea8d05257f","label":"user-db-3152184577","group":"replicaset","title":"Kind: replicaset<br/>Name: user-db-3152184577<br/>Version: 590765"});'],
+[100, 'edges.update({"id":"a821c2e3-a3c8-11e7-a809-06ea8d05257fa7facf43-a3c8-11e7-a809-06ea8d05257f","from":"a821c2e3-a3c8-11e7-a809-06ea8d05257f","to":"a7facf43-a3c8-11e7-a809-06ea8d05257f"});'],
+[100, 'nodes.update({"id":"a821d849-a3c8-11e7-a809-06ea8d05257f","label":"shipping-2463450563-t1066","group":"pod","title":"Kind: pod<br/>Name: shipping-2463450563-t1066<br/>Version: 590766"});'],
+[100, 'edges.update({"id":"a821d849-a3c8-11e7-a809-06ea8d05257fa80b1bc2-a3c8-11e7-a809-06ea8d05257f","from":"a821d849-a3c8-11e7-a809-06ea8d05257f","to":"a80b1bc2-a3c8-11e7-a809-06ea8d05257f"});'],
+[100, 'nodes.update({"id":"a821d849-a3c8-11e7-a809-06ea8d05257f","label":"shipping-2463450563-t1066","group":"pod","title":"Kind: pod<br/>Name: shipping-2463450563-t1066<br/>Version: 590767"});'],
+[100, 'nodes.update({"id":"a821d849-a3c8-11e7-a809-06ea8d05257f","label":"shipping-2463450563-t1066","group":"pod","title":"Kind: pod<br/>Name: shipping-2463450563-t1066<br/>Version: 590771"});'],
+[100, 'nodes.update({"id":"a7f55eb0-a3c8-11e7-a809-06ea8d05257f","label":"rabbitmq-241640118","group":"replicaset","title":"Kind: replicaset<br/>Name: rabbitmq-241640118<br/>Version: 590772"});'],
+[100, 'nodes.update({"id":"a7e1519b-a3c8-11e7-a809-06ea8d05257f","label":"queue-master-2067646375","group":"replicaset","title":"Kind: replicaset<br/>Name: queue-master-2067646375<br/>Version: 590778"});'],
+[100, 'nodes.update({"id":"a7e8ce51-a3c8-11e7-a809-06ea8d05257f","label":"shipping","group":"deployment","title":"Kind: deployment<br/>Name: shipping<br/>Version: 590779"});'],
+[100, 'nodes.update({"id":"a8403a47-a3c8-11e7-a809-06ea8d05257f","label":"user-1574605338","group":"replicaset","title":"Kind: replicaset<br/>Name: user-1574605338<br/>Version: 590782"});'],
+[100, 'edges.update({"id":"a8403a47-a3c8-11e7-a809-06ea8d05257fa80921e2-a3c8-11e7-a809-06ea8d05257f","from":"a8403a47-a3c8-11e7-a809-06ea8d05257f","to":"a80921e2-a3c8-11e7-a809-06ea8d05257f"});'],
+[100, 'nodes.update({"id":"a84075a2-a3c8-11e7-a809-06ea8d05257f","label":"user-db-3152184577-w26gr","group":"pod","title":"Kind: pod<br/>Name: user-db-3152184577-w26gr<br/>Version: 590783"});'],
+[100, 'edges.update({"id":"a84075a2-a3c8-11e7-a809-06ea8d05257fa821c2e3-a3c8-11e7-a809-06ea8d05257f","from":"a84075a2-a3c8-11e7-a809-06ea8d05257f","to":"a821c2e3-a3c8-11e7-a809-06ea8d05257f"});'],
+[100, 'nodes.update({"id":"a84075a2-a3c8-11e7-a809-06ea8d05257f","label":"user-db-3152184577-w26gr","group":"pod","title":"Kind: pod<br/>Name: user-db-3152184577-w26gr<br/>Version: 590784"});'],
+[100, 'nodes.update({"id":"a84075a2-a3c8-11e7-a809-06ea8d05257f","label":"user-db-3152184577-w26gr","group":"pod","title":"Kind: pod<br/>Name: user-db-3152184577-w26gr<br/>Version: 590787"});'],
+[100, 'nodes.update({"id":"a80b1bc2-a3c8-11e7-a809-06ea8d05257f","label":"shipping-2463450563","group":"replicaset","title":"Kind: replicaset<br/>Name: shipping-2463450563<br/>Version: 590790"});'],
+[100, 'nodes.update({"id":"a7f55eb0-a3c8-11e7-a809-06ea8d05257f","label":"rabbitmq-241640118","group":"replicaset","title":"Kind: replicaset<br/>Name: rabbitmq-241640118<br/>Version: 590791"});'],
+[100, 'nodes.update({"id":"a7facf43-a3c8-11e7-a809-06ea8d05257f","label":"user-db","group":"deployment","title":"Kind: deployment<br/>Name: user-db<br/>Version: 590792"});'],
+[100, 'nodes.update({"id":"a7c2e4ae-a3c8-11e7-a809-06ea8d05257f","label":"queue-master","group":"deployment","title":"Kind: deployment<br/>Name: queue-master<br/>Version: 590793"});'],
+[100, 'nodes.update({"id":"a85ed2d5-a3c8-11e7-a809-06ea8d05257f","label":"user-1574605338-hff4h","group":"pod","title":"Kind: pod<br/>Name: user-1574605338-hff4h<br/>Version: 590797"});'],
+[100, 'edges.update({"id":"a85ed2d5-a3c8-11e7-a809-06ea8d05257fa8403a47-a3c8-11e7-a809-06ea8d05257f","from":"a85ed2d5-a3c8-11e7-a809-06ea8d05257f","to":"a8403a47-a3c8-11e7-a809-06ea8d05257f"});'],
+[100, 'nodes.update({"id":"a85ed2d5-a3c8-11e7-a809-06ea8d05257f","label":"user-1574605338-hff4h","group":"pod","title":"Kind: pod<br/>Name: user-1574605338-hff4h<br/>Version: 590798"});'],
+[100, 'nodes.update({"id":"a85ed2d5-a3c8-11e7-a809-06ea8d05257f","label":"user-1574605338-hff4h","group":"pod","title":"Kind: pod<br/>Name: user-1574605338-hff4h<br/>Version: 590801"});'],
+[100, 'nodes.update({"id":"a821c2e3-a3c8-11e7-a809-06ea8d05257f","label":"user-db-3152184577","group":"replicaset","title":"Kind: replicaset<br/>Name: user-db-3152184577<br/>Version: 590802"});'],
+[100, 'nodes.update({"id":"a80921e2-a3c8-11e7-a809-06ea8d05257f","label":"user","group":"deployment","title":"Kind: deployment<br/>Name: user<br/>Version: 590805"});'],
+[100, 'nodes.update({"id":"a7d4a184-a3c8-11e7-a809-06ea8d05257f","label":"rabbitmq","group":"deployment","title":"Kind: deployment<br/>Name: rabbitmq<br/>Version: 590806"});'],
+[100, 'nodes.update({"id":"a8403a47-a3c8-11e7-a809-06ea8d05257f","label":"user-1574605338","group":"replicaset","title":"Kind: replicaset<br/>Name: user-1574605338<br/>Version: 590808"});'],
+[100, 'nodes.update({"id":"a7c2e4ae-a3c8-11e7-a809-06ea8d05257f","label":"queue-master","group":"deployment","title":"Kind: deployment<br/>Name: queue-master<br/>Version: 590811"});'],
+[100, 'nodes.update({"id":"a7e8ce51-a3c8-11e7-a809-06ea8d05257f","label":"shipping","group":"deployment","title":"Kind: deployment<br/>Name: shipping<br/>Version: 590814"});'],
+[100, 'nodes.update({"id":"a7d4a184-a3c8-11e7-a809-06ea8d05257f","label":"rabbitmq","group":"deployment","title":"Kind: deployment<br/>Name: rabbitmq<br/>Version: 590816"});'],
+[100, 'nodes.update({"id":"a80b1bc2-a3c8-11e7-a809-06ea8d05257f","label":"shipping-2463450563","group":"replicaset","title":"Kind: replicaset<br/>Name: shipping-2463450563<br/>Version: 590817"});'],
+[100, 'nodes.update({"id":"a7facf43-a3c8-11e7-a809-06ea8d05257f","label":"user-db","group":"deployment","title":"Kind: deployment<br/>Name: user-db<br/>Version: 590818"});'],
+[100, 'nodes.update({"id":"a80921e2-a3c8-11e7-a809-06ea8d05257f","label":"user","group":"deployment","title":"Kind: deployment<br/>Name: user<br/>Version: 590821"});'],
+[100, 'nodes.update({"id":"a821c2e3-a3c8-11e7-a809-06ea8d05257f","label":"user-db-3152184577","group":"replicaset","title":"Kind: replicaset<br/>Name: user-db-3152184577<br/>Version: 590822"});'],
+[100, 'nodes.update({"id":"a7e8ce51-a3c8-11e7-a809-06ea8d05257f","label":"shipping","group":"deployment","title":"Kind: deployment<br/>Name: shipping<br/>Version: 590823"});'],
+[100, 'nodes.update({"id":"a8403a47-a3c8-11e7-a809-06ea8d05257f","label":"user-1574605338","group":"replicaset","title":"Kind: replicaset<br/>Name: user-1574605338<br/>Version: 590825"});'],
+[100, 'nodes.update({"id":"a7facf43-a3c8-11e7-a809-06ea8d05257f","label":"user-db","group":"deployment","title":"Kind: deployment<br/>Name: user-db<br/>Version: 590826"});'],
+[100, 'nodes.update({"id":"a80921e2-a3c8-11e7-a809-06ea8d05257f","label":"user","group":"deployment","title":"Kind: deployment<br/>Name: user<br/>Version: 590827"});'],
+[100, 'nodes.update({"id":"a73f803f-a3c8-11e7-a809-06ea8d05257f","label":"carts-db","group":"deployment","title":"Kind: deployment<br/>Name: carts-db<br/>Version: 590852"});'],
+[100, 'nodes.update({"id":"a7411721-a3c8-11e7-a809-06ea8d05257f","label":"carts-db-1721187500","group":"replicaset","title":"Kind: replicaset<br/>Name: carts-db-1721187500<br/>Version: 590851"});'],
+[100, 'nodes.update({"id":"a7437cdc-a3c8-11e7-a809-06ea8d05257f","label":"carts-db-1721187500-mkxw2","group":"pod","title":"Kind: pod<br/>Name: carts-db-1721187500-mkxw2<br/>Version: 590850"});'],
+[100, 'nodes.update({"id":"a753ba1d-a3c8-11e7-a809-06ea8d05257f","label":"carts-2469883122","group":"replicaset","title":"Kind: replicaset<br/>Name: carts-2469883122<br/>Version: 590869"});'],
+[100, 'nodes.update({"id":"a74df900-a3c8-11e7-a809-06ea8d05257f","label":"carts","group":"deployment","title":"Kind: deployment<br/>Name: carts<br/>Version: 590871"});'],
+[100, 'nodes.update({"id":"a754a719-a3c8-11e7-a809-06ea8d05257f","label":"carts-2469883122-v09v6","group":"pod","title":"Kind: pod<br/>Name: carts-2469883122-v09v6<br/>Version: 590868"});'],
+[100, 'nodes.update({"id":"a7723223-a3c8-11e7-a809-06ea8d05257f","label":"catalogue-4293036822-rh4d4","group":"pod","title":"Kind: pod<br/>Name: catalogue-4293036822-rh4d4<br/>Version: 590888"});'],
+[100, 'nodes.update({"id":"a7710640-a3c8-11e7-a809-06ea8d05257f","label":"catalogue-4293036822","group":"replicaset","title":"Kind: replicaset<br/>Name: catalogue-4293036822<br/>Version: 590889"});'],
+[100, 'nodes.update({"id":"a76eda2f-a3c8-11e7-a809-06ea8d05257f","label":"catalogue","group":"deployment","title":"Kind: deployment<br/>Name: catalogue<br/>Version: 590891"});'],
+[100, 'nodes.update({"id":"a7616c9a-a3c8-11e7-a809-06ea8d05257f","label":"catalogue-db-1846494424","group":"replicaset","title":"Kind: replicaset<br/>Name: catalogue-db-1846494424<br/>Version: 590904"});'],
+[100, 'nodes.update({"id":"a76046bd-a3c8-11e7-a809-06ea8d05257f","label":"catalogue-db","group":"deployment","title":"Kind: deployment<br/>Name: catalogue-db<br/>Version: 590906"});'],
+[100, 'nodes.update({"id":"a7628131-a3c8-11e7-a809-06ea8d05257f","label":"catalogue-db-1846494424-txx89","group":"pod","title":"Kind: pod<br/>Name: catalogue-db-1846494424-txx89<br/>Version: 590903"});'],
+[100, 'nodes.update({"id":"a79b2ff2-a3c8-11e7-a809-06ea8d05257f","label":"orders-db-3728196820-51ltt","group":"pod","title":"Kind: pod<br/>Name: orders-db-3728196820-51ltt<br/>Version: 590920"});'],
+[100, 'nodes.update({"id":"a79709a6-a3c8-11e7-a809-06ea8d05257f","label":"orders-db-3728196820","group":"replicaset","title":"Kind: replicaset<br/>Name: orders-db-3728196820<br/>Version: 590921"});'],
+[100, 'nodes.update({"id":"a7930df5-a3c8-11e7-a809-06ea8d05257f","label":"orders-db","group":"deployment","title":"Kind: deployment<br/>Name: orders-db<br/>Version: 590923"});'],
+[100, 'nodes.update({"id":"a7a8c625-a3c8-11e7-a809-06ea8d05257f","label":"orders-733484335-s7m75","group":"pod","title":"Kind: pod<br/>Name: orders-733484335-s7m75<br/>Version: 590933"});'],
+[100, 'nodes.update({"id":"a7a66c0f-a3c8-11e7-a809-06ea8d05257f","label":"orders-733484335","group":"replicaset","title":"Kind: replicaset<br/>Name: orders-733484335<br/>Version: 590934"});'],
+[100, 'nodes.update({"id":"a7a4573d-a3c8-11e7-a809-06ea8d05257f","label":"orders","group":"deployment","title":"Kind: deployment<br/>Name: orders<br/>Version: 590936"});'],
+[100, 'nodes.update({"id":"a7c1106c-a3c8-11e7-a809-06ea8d05257f","label":"payment-3050936124","group":"replicaset","title":"Kind: replicaset<br/>Name: payment-3050936124<br/>Version: 590943"});'],
+[100, 'nodes.update({"id":"a7c44714-a3c8-11e7-a809-06ea8d05257f","label":"payment-3050936124-f1spm","group":"pod","title":"Kind: pod<br/>Name: payment-3050936124-f1spm<br/>Version: 590942"});'],
+[100, 'nodes.update({"id":"a7b4ce35-a3c8-11e7-a809-06ea8d05257f","label":"payment","group":"deployment","title":"Kind: deployment<br/>Name: payment<br/>Version: 590945"});'],
+[100, 'nodes.update({"id":"a7f55eb0-a3c8-11e7-a809-06ea8d05257f","label":"rabbitmq-241640118","group":"replicaset","title":"Kind: replicaset<br/>Name: rabbitmq-241640118<br/>Version: 590963"});'],
+[100, 'nodes.update({"id":"a812f888-a3c8-11e7-a809-06ea8d05257f","label":"rabbitmq-241640118-pc1z7","group":"pod","title":"Kind: pod<br/>Name: rabbitmq-241640118-pc1z7<br/>Version: 590962"});'],
+[100, 'nodes.update({"id":"a7d4a184-a3c8-11e7-a809-06ea8d05257f","label":"rabbitmq","group":"deployment","title":"Kind: deployment<br/>Name: rabbitmq<br/>Version: 590965"});'],
+[100, 'nodes.update({"id":"a78120a7-a3c8-11e7-a809-06ea8d05257f","label":"front-end-2337481689-0djrh","group":"pod","title":"Kind: pod<br/>Name: front-end-2337481689-0djrh<br/>Version: 590971"});'],
+[100, 'nodes.update({"id":"a77f2b86-a3c8-11e7-a809-06ea8d05257f","label":"front-end-2337481689","group":"replicaset","title":"Kind: replicaset<br/>Name: front-end-2337481689<br/>Version: 590972"});'],
+[100, 'nodes.update({"id":"a77d8424-a3c8-11e7-a809-06ea8d05257f","label":"front-end","group":"deployment","title":"Kind: deployment<br/>Name: front-end<br/>Version: 590974"});'],
+[100, 'nodes.update({"id":"a7e90061-a3c8-11e7-a809-06ea8d05257f","label":"queue-master-2067646375-bdl6m","group":"pod","title":"Kind: pod<br/>Name: queue-master-2067646375-bdl6m<br/>Version: 590990"});'],
+[100, 'nodes.update({"id":"a7e1519b-a3c8-11e7-a809-06ea8d05257f","label":"queue-master-2067646375","group":"replicaset","title":"Kind: replicaset<br/>Name: queue-master-2067646375<br/>Version: 590991"});'],
+[100, 'nodes.update({"id":"a7c2e4ae-a3c8-11e7-a809-06ea8d05257f","label":"queue-master","group":"deployment","title":"Kind: deployment<br/>Name: queue-master<br/>Version: 590993"});'],
+[100, 'nodes.update({"id":"a7e8ce51-a3c8-11e7-a809-06ea8d05257f","label":"shipping","group":"deployment","title":"Kind: deployment<br/>Name: shipping<br/>Version: 591019"});'],
+[100, 'nodes.update({"id":"a80b1bc2-a3c8-11e7-a809-06ea8d05257f","label":"shipping-2463450563","group":"replicaset","title":"Kind: replicaset<br/>Name: shipping-2463450563<br/>Version: 591017"});'],
+[100, 'nodes.update({"id":"a821d849-a3c8-11e7-a809-06ea8d05257f","label":"shipping-2463450563-t1066","group":"pod","title":"Kind: pod<br/>Name: shipping-2463450563-t1066<br/>Version: 591016"});'],
+[100, 'nodes.update({"id":"a84075a2-a3c8-11e7-a809-06ea8d05257f","label":"user-db-3152184577-w26gr","group":"pod","title":"Kind: pod<br/>Name: user-db-3152184577-w26gr<br/>Version: 591021"});'],
+[100, 'nodes.update({"id":"a821c2e3-a3c8-11e7-a809-06ea8d05257f","label":"user-db-3152184577","group":"replicaset","title":"Kind: replicaset<br/>Name: user-db-3152184577<br/>Version: 591022"});'],
+[100, 'nodes.update({"id":"a7facf43-a3c8-11e7-a809-06ea8d05257f","label":"user-db","group":"deployment","title":"Kind: deployment<br/>Name: user-db<br/>Version: 591024"});'],
+[100, 'nodes.update({"id":"a8403a47-a3c8-11e7-a809-06ea8d05257f","label":"user-1574605338","group":"replicaset","title":"Kind: replicaset<br/>Name: user-1574605338<br/>Version: 591036"});'],
+[100, 'nodes.update({"id":"a80921e2-a3c8-11e7-a809-06ea8d05257f","label":"user","group":"deployment","title":"Kind: deployment<br/>Name: user<br/>Version: 591038"});'],
+[100, 'nodes.update({"id":"a85ed2d5-a3c8-11e7-a809-06ea8d05257f","label":"user-1574605338-hff4h","group":"pod","title":"Kind: pod<br/>Name: user-1574605338-hff4h<br/>Version: 591035"});'],
+[100, 'nodes.update({"id":"a754a719-a3c8-11e7-a809-06ea8d05257f","label":"carts-2469883122-v09v6","group":"pod","title":"Kind: pod<br/>Name: carts-2469883122-v09v6<br/>Version: 591079"});'],
+[100, 'nodes.update({"id":"a7437cdc-a3c8-11e7-a809-06ea8d05257f","label":"carts-db-1721187500-mkxw2","group":"pod","title":"Kind: pod<br/>Name: carts-db-1721187500-mkxw2<br/>Version: 591080"});'],
+[100, 'nodes.update({"id":"a7723223-a3c8-11e7-a809-06ea8d05257f","label":"catalogue-4293036822-rh4d4","group":"pod","title":"Kind: pod<br/>Name: catalogue-4293036822-rh4d4<br/>Version: 591081"});'],
+[100, 'nodes.update({"id":"a7628131-a3c8-11e7-a809-06ea8d05257f","label":"catalogue-db-1846494424-txx89","group":"pod","title":"Kind: pod<br/>Name: catalogue-db-1846494424-txx89<br/>Version: 591082"});'],
+[100, 'nodes.update({"id":"a753ba1d-a3c8-11e7-a809-06ea8d05257f","label":"carts-2469883122","group":"replicaset","title":"Kind: replicaset<br/>Name: carts-2469883122<br/>Version: 591083"});'],
+[100, 'nodes.update({"id":"a73f803f-a3c8-11e7-a809-06ea8d05257f","label":"carts-db","group":"deployment","title":"Kind: deployment<br/>Name: carts-db<br/>Version: 591089"});'],
+[100, 'nodes.update({"id":"a7411721-a3c8-11e7-a809-06ea8d05257f","label":"carts-db-1721187500","group":"replicaset","title":"Kind: replicaset<br/>Name: carts-db-1721187500<br/>Version: 591084"});'],
+[100, 'nodes.update({"id":"a78120a7-a3c8-11e7-a809-06ea8d05257f","label":"front-end-2337481689-0djrh","group":"pod","title":"Kind: pod<br/>Name: front-end-2337481689-0djrh<br/>Version: 591088"});'],
+[100, 'nodes.update({"id":"a7710640-a3c8-11e7-a809-06ea8d05257f","label":"catalogue-4293036822","group":"replicaset","title":"Kind: replicaset<br/>Name: catalogue-4293036822<br/>Version: 591087"});'],
+[100, 'nodes.update({"id":"a7a8c625-a3c8-11e7-a809-06ea8d05257f","label":"orders-733484335-s7m75","group":"pod","title":"Kind: pod<br/>Name: orders-733484335-s7m75<br/>Version: 591091"});'],
+[100, 'nodes.update({"id":"a79b2ff2-a3c8-11e7-a809-06ea8d05257f","label":"orders-db-3728196820-51ltt","group":"pod","title":"Kind: pod<br/>Name: orders-db-3728196820-51ltt<br/>Version: 591092"});'],
+[100, 'nodes.update({"id":"a7c44714-a3c8-11e7-a809-06ea8d05257f","label":"payment-3050936124-f1spm","group":"pod","title":"Kind: pod<br/>Name: payment-3050936124-f1spm<br/>Version: 591093"});'],
+[100, 'nodes.update({"id":"a76eda2f-a3c8-11e7-a809-06ea8d05257f","label":"catalogue","group":"deployment","title":"Kind: deployment<br/>Name: catalogue<br/>Version: 591094"});'],
+[100, 'nodes.update({"id":"a7e90061-a3c8-11e7-a809-06ea8d05257f","label":"queue-master-2067646375-bdl6m","group":"pod","title":"Kind: pod<br/>Name: queue-master-2067646375-bdl6m<br/>Version: 591095"});'],
+[100, 'nodes.update({"id":"a7616c9a-a3c8-11e7-a809-06ea8d05257f","label":"catalogue-db-1846494424","group":"replicaset","title":"Kind: replicaset<br/>Name: catalogue-db-1846494424<br/>Version: 591097"});'],
+[100, 'nodes.update({"id":"a74df900-a3c8-11e7-a809-06ea8d05257f","label":"carts","group":"deployment","title":"Kind: deployment<br/>Name: carts<br/>Version: 591099"});'],
+[100, 'nodes.update({"id":"a77f2b86-a3c8-11e7-a809-06ea8d05257f","label":"front-end-2337481689","group":"replicaset","title":"Kind: replicaset<br/>Name: front-end-2337481689<br/>Version: 591101"});'],
+[100, 'nodes.update({"id":"a76046bd-a3c8-11e7-a809-06ea8d05257f","label":"catalogue-db","group":"deployment","title":"Kind: deployment<br/>Name: catalogue-db<br/>Version: 591102"});'],
+[100, 'nodes.update({"id":"a812f888-a3c8-11e7-a809-06ea8d05257f","label":"rabbitmq-241640118-pc1z7","group":"pod","title":"Kind: pod<br/>Name: rabbitmq-241640118-pc1z7<br/>Version: 591096"});'],
+[100, 'nodes.update({"id":"a77d8424-a3c8-11e7-a809-06ea8d05257f","label":"front-end","group":"deployment","title":"Kind: deployment<br/>Name: front-end<br/>Version: 591111"});'],
+[100, 'nodes.update({"id":"a7a66c0f-a3c8-11e7-a809-06ea8d05257f","label":"orders-733484335","group":"replicaset","title":"Kind: replicaset<br/>Name: orders-733484335<br/>Version: 591108"});'],
+[100, 'nodes.update({"id":"a821d849-a3c8-11e7-a809-06ea8d05257f","label":"shipping-2463450563-t1066","group":"pod","title":"Kind: pod<br/>Name: shipping-2463450563-t1066<br/>Version: 591098"});'],
+[100, 'nodes.update({"id":"a7930df5-a3c8-11e7-a809-06ea8d05257f","label":"orders-db","group":"deployment","title":"Kind: deployment<br/>Name: orders-db<br/>Version: 591115"});'],
+[100, 'nodes.update({"id":"a7e1519b-a3c8-11e7-a809-06ea8d05257f","label":"queue-master-2067646375","group":"replicaset","title":"Kind: replicaset<br/>Name: queue-master-2067646375<br/>Version: 591109"});'],
+[100, 'nodes.update({"id":"a79709a6-a3c8-11e7-a809-06ea8d05257f","label":"orders-db-3728196820","group":"replicaset","title":"Kind: replicaset<br/>Name: orders-db-3728196820<br/>Version: 591110"});'],
+[100, 'nodes.update({"id":"a7a4573d-a3c8-11e7-a809-06ea8d05257f","label":"orders","group":"deployment","title":"Kind: deployment<br/>Name: orders<br/>Version: 591117"});'],
+[100, 'nodes.update({"id":"a85ed2d5-a3c8-11e7-a809-06ea8d05257f","label":"user-1574605338-hff4h","group":"pod","title":"Kind: pod<br/>Name: user-1574605338-hff4h<br/>Version: 591107"});'],
+[100, 'nodes.update({"id":"a7c2e4ae-a3c8-11e7-a809-06ea8d05257f","label":"queue-master","group":"deployment","title":"Kind: deployment<br/>Name: queue-master<br/>Version: 591118"});'],
+[100, 'nodes.update({"id":"a7c1106c-a3c8-11e7-a809-06ea8d05257f","label":"payment-3050936124","group":"replicaset","title":"Kind: replicaset<br/>Name: payment-3050936124<br/>Version: 591113"});'],
+[100, 'nodes.update({"id":"a84075a2-a3c8-11e7-a809-06ea8d05257f","label":"user-db-3152184577-w26gr","group":"pod","title":"Kind: pod<br/>Name: user-db-3152184577-w26gr<br/>Version: 591112"});'],
+[100, 'nodes.update({"id":"a7b4ce35-a3c8-11e7-a809-06ea8d05257f","label":"payment","group":"deployment","title":"Kind: deployment<br/>Name: payment<br/>Version: 591120"});'],
+[100, 'nodes.update({"id":"a80b1bc2-a3c8-11e7-a809-06ea8d05257f","label":"shipping-2463450563","group":"replicaset","title":"Kind: replicaset<br/>Name: shipping-2463450563<br/>Version: 591114"});'],
+[100, 'nodes.update({"id":"a7e8ce51-a3c8-11e7-a809-06ea8d05257f","label":"shipping","group":"deployment","title":"Kind: deployment<br/>Name: shipping<br/>Version: 591122"});'],
+];
+$(document).ready(function play() {
+	var n = 0;
+	function step() {
+		eval(_events[n][1]);
+		if (n < _events.length - 1) {
+			n++;
+			setTimeout(step, _events[n][0]);
+		}
+	}
+	setTimeout(step, _events[n][0]);
+});
+
+        </script>
+
+    </body>
+</html>
