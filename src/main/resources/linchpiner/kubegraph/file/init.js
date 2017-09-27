@@ -9,6 +9,11 @@ var data = {
 
 var options = {
     autoResize: true,
+    interaction: {
+        tooltipDelay: 120,
+        hover: true,
+        navigationButtons: true
+    },    
     layout: {
         improvedLayout: true,
     },
