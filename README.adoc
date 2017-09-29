@@ -1,9 +1,9 @@
 # Kubegraph
 :kubegraph: https://linchpiner.github.io/kubegraph
 
-A simple tool that allows visualizing in real-time Kubernetes resources (Pods, Deployments, Replica Sets, and so on) from the specified Kubernetes namespace.
-Kubegraph also allows you to store the events from a Kubernetes cluster in a file, so you can replay the events again without connecting to a cluster.
-And last but not least, you can use the saved events to generate a standalone HTML file, that allows you to replay the visualization in your browser without a cluster and Kubegraph itself.
+A simple tool that allows visualizing Kubernetes resources (Pods, Deployments, Replica Sets, and so on) from the specified Kubernetes namespace in real-time.
+Kubegraph also allows you to store the events from a Kubernetes cluster in a file, so you can replay the events again without connecting to the cluster.
+And last but not least, you can use the saved events to generate a standalone HTML file, that allows you to replay the visualization in your browser without the cluster and Kubegraph itself.
 
 ## Examples
 
