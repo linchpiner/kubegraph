@@ -31,6 +31,53 @@ For Deployments, it shows corresponding Replica Sets.
 
 Temporarily, the embedded HTTP server supports only one client: you can open more connections, but they will receive events in undetermined order.
 
+
+
+## How To Build
+
+Prerequisites:
+
+* Java SE 8 
+* Running Kubernetes cluster
+
+To build a "fat" jar:
+
+----
+$ ./gradlew shadowJar
+----
+
+## How To Run
+
+Show usage information:
+
+----
+$ java -jar build/libs/kubegraph-all.jar
+----
+
+Start HTTP server on port 8080, connect to the Kubernetes cluster using the specified config file and watch the `default` name name:
+
+----
+$ java -jar build/libs/kubegraph-all.jar watch -c ~/.kube/config
+----
+
+The same as above, but also save the cluster events to the specified file:
+
+----
+$ java -jar build/libs/kubegraph-all.jar watch -c ~/.kube/config -f session.yaml
+----
+
+Start HTTP server on port 8080 and play the recorded events from the specified file (Kubernetes cluster is not needed):
+
+----
+$ java -jar build/libs/kubegraph-all.jar load -f session.yaml
+----
+
+Generate a standalone HTML file from the specified file:
+
+----
+$ java -jar build/libs/kubegraph-all.jar load -f session.yaml --html session.html
+----
+
 ## Road Map
 
 * Visualize other Kubernetes resources, such as Daemon Sets, Jobs, and so on
