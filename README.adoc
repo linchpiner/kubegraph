@@ -1,0 +1,42 @@
+# Kubegraph
+:kubegraph: https://linchpiner.github.io/kubegraph
+
+A simple tool that allows visualizing in real-time Kubernetes resources (Pods, Deployments, Replica Sets, and so on) from the specified Kubernetes namespace.
+Kubegraph also allows you to store the events from a Kubernetes cluster in a file, so you can replay the events again without connecting to a cluster.
+And last but not least, you can use the saved events to generate a standalone HTML file, that allows you to replay the visualization in your browser without a cluster and Kubegraph itself.
+
+## Examples
+
+Examples of generated HTML for simple scenarios:
+
+link:{kubegraph}/example1.html[Example 1]::
+Create Replication Controller and Deployment, scale the Deployment up and down, use the Deployment to roll out a new version, 
+and, finally, delete both Replication Controller and Deployment.
+link:{kubegraph}/example2.html[Example 2]::
+Install link:https://github.com/microservices-demo/microservices-demo[Sock Shop application] and then delete it.
+link:{kubegraph]/example3.html[Example 3]::
+Install link:https://github.com/microservices-demo/microservices-demo[Sock Shop application] and keep it running.
+
+## Motivation
+
+The project started as a proof of concept of a new monitoring system for Kubernetes, that works with a cluster through its public API
+and uses a Java client to watch Kubernetes resources. Kubegraph can be used to learn how basic Kubernetes resources work and what are the relationships between them.
+
+## Currents Status
+
+The application is in development.
+Currently it is able to visualize: Nodes, Pods, Replication Controllers, Replica Sets, Deployments, Services.
+Also it shows connections between Pods and corresponding Replication Controller and Replica Sets.
+For Deployments, it shows corresponding Replica Sets.
+
+Temporarily, the embedded HTTP server supports only one client: you can open more connections, but they will receive events in undetermined order.
+
+## Road Map
+
+* Visualize other Kubernetes resources, such as Daemon Sets, Jobs, and so on
+* Visualize other connections between resources, for example, between Services and corresponding Pods
+* Visualize other resource properties, for example, Pod status
+* Monitor multiple namespaces
+* Make a graph configurable, for example which resources and connections to show
+* Make an HTML player more user friendly, for example, use a slider to navigate in time
+* Smart graph layout (currently, a graph can be messy, if there are a lot of connections)
