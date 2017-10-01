@@ -40,6 +40,7 @@ class JavaScriptServlet extends HttpServlet {
     
     def asMap(KEdge edge) {
         return [
+            id:   edge.uid,
             from: edge.from,
             to:   edge.to
         ]
