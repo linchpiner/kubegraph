@@ -1,21 +1,21 @@
-var nodes = new vis.DataSet([]);
-var edges = new vis.DataSet([]);
-var container = document.getElementById('kubegraph');
+var nodes = new vis.DataSet(_nodes);
+var edges = new vis.DataSet(_edges);
 
+var container = document.getElementById('kubegraph');
 var data = {
     nodes: nodes,
     edges: edges
 };
-
 var options = {
     autoResize: true,
-    interaction: {
-        tooltipDelay: 120,
-        hover: true,
-        navigationButtons: true
-    },    
     layout: {
         improvedLayout: true,
+        /*
+        hierarchical: {
+            enabled: true,
+            sortMethod: 'directed',
+        }
+        */
     },
     groups: {
         node: {
@@ -51,9 +51,18 @@ var options = {
                 face: 'FontAwesome',
                 code: '\uf1b2',
                 size: 50,
-                color: '#3366ff'
+                color: '#ffcc00'
             }
         },
+        'pod-running': {
+            shape: 'icon',
+            icon: {
+                face: 'FontAwesome',
+                code: '\uf1b2',
+                size: 50,
+                color: '#004d00'
+            }
+        },                    
         replicaset: {
             shape: 'icon',
             icon: {
@@ -76,4 +85,3 @@ var options = {
 };
 
 var network = new vis.Network(container, data, options);
-

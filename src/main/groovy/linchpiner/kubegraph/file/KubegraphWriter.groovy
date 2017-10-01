@@ -5,6 +5,7 @@ import java.io.File
 import linchpiner.kubegraph.model.Change
 import linchpiner.kubegraph.model.KEdge
 import linchpiner.kubegraph.model.KNode
+import linchpiner.kubegraph.map.ModelMap
 import org.yaml.snakeyaml.DumperOptions
 import org.yaml.snakeyaml.Yaml
 import java.util.concurrent.LinkedBlockingQueue
@@ -39,28 +40,12 @@ class KubegraphWriter {
     
     def realWrite(Yaml yaml, Change c) {
         def map = [
-            change: [
-                type: c.type.toString(),
-                uid: c.watchable.uid,
-                timestamp: c.timestamp,
-            ] + asMap(c.watchable)
+            change: [ 
+                type: c.type.toString(), 
+                timestamp: c.timestamp
+            ] + ModelMap.asMap(c.watchable)
         ]
         file << yaml.dump([ map ])
     }
     
-    def asMap(KNode node) {
-        return [
-            kind: node.kind,
-            name: node.name,
-            version: node.version,
-        ]
-    }
-    
-    def asMap(KEdge edge) {
-        return [
-            from: edge.from,
-            to: edge.to,
-        ]
-    }
-
 }

@@ -28,9 +28,14 @@ class DataSet {
             nodemap[w.uid] = w
             def nk = namekindKey(w)
             namekind[nk] = deleted ? null : w.uid 
-            addChange(new Change(type: type, watchable: w))
             
-            if (_w != null) nodes.remove(_w)
+            if (w instanceof KEndpoint) {
+                updateLinks(_w, w)
+            } else {
+                addChange(new Change(type: type, watchable: w))
+            }
+            
+            nodes.remove(w)
             
             if (!deleted) {
                 nodes.add(w)
@@ -83,6 +88,31 @@ class DataSet {
         }
     }
     
+    def unlink(String fuid, String name, String kind) {
+        def nk = namekindKey(name, kind)
+        def tuid = namekind[nk]
+        if (tuid) {
+            unlink(fuid, tuid)
+        }
+    }
+    
+    def unlink(String fuid, String tuid) {
+        def edge = new KEdge(from: fuid, to: tuid)
+        edges.remove(edge)
+        addChange(new Change(type: Change.Type.DELETE, watchable: edge))
+    }
+    
+    def updateLinks(KEndpoint oldEP, KEndpoint newEP) {
+        def newUids = oldEP ? newEP.uids - oldEP.uids : newEP.uids
+        def oldUids = oldEP ? oldEP.uids - newEP.uids : []
+        newUids.each { uid ->
+            link(uid, newEP.name, "service")
+        }
+        oldUids.each { uid ->
+            unlink(uid, newEP.name, "service")
+        }
+    }
+    
     String namekindKey(String name, String kind) {
         return "${kind}/${name}"
     }
@@ -95,4 +125,5 @@ class DataSet {
         queue.add(c)
         listener.onChange.call(c)
     }
+    
 }

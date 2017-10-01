@@ -10,7 +10,10 @@
     </head>
     <body>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.20.1/vis.min.js"></script>
-
+        ${mode == 'load' 
+                ? '<script type="text/javascript" src="js/dataset.js"></script>' 
+                : '<script type="text/javascript">var _nodes = []; var _edges = [];</script>'}
+        
         <div class="container bs-docs-container">
             <div class="row">
                 <div class="col-md-12">

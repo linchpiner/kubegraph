@@ -20,7 +20,7 @@ class Main {
         ],
         watcher: [
             enabled:    false,
-            config:     "./config",
+            config:     "config",
             namespace:  "default",
             file:       "rec/session.yaml"
         ],
@@ -63,7 +63,9 @@ class Main {
         watcher.namespace = options.watcher.namespace
         
         def methods = ["pods", "rcs", "rss", "deployments", "services"]
-        //methods << "nodes"
+        methods << "endpoints"
+        methods << "nodes"
+        //methods << "events"
         methods.each { method ->
             Thread.start {
                 while (true) {
@@ -74,9 +76,9 @@ class Main {
     }
     
     def startReader() {
-        ChangeConsumer consumer = options.watcher.enabled
-                ? new DataSetChangeConsumer(dataSet: dataSet)
-                : new HtmlChangeConsumer(new File(options.html.file))
+        ChangeConsumer consumer = options.html.enabled
+                ? new HtmlChangeConsumer(new File(options.html.file))
+                : new DataSetChangeConsumer(dataSet: dataSet)
         KubegraphReader reader = new KubegraphReader(
                 file: new File(options.reader.file),
                 consumer: consumer)

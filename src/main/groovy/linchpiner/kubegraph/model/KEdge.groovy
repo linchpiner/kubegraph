@@ -7,6 +7,7 @@ import groovy.transform.EqualsAndHashCode
 class KEdge implements Watchable {
     
     String uid
+    String kind = "edge"
     String from
     String to
 

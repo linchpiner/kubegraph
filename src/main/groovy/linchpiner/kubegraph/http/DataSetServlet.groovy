@@ -11,8 +11,10 @@ class DataSetServlet extends JavaScriptServlet {
     void service(HttpServletRequest request, HttpServletResponse response) {
         response.contentType = "application/javascript"
         
-        def nodes = dataSet.nodes.collect { KNode n -> asJson(n) }
-        def edges = dataSet.edges.collect { KEdge e -> asJson(e) }
+        def nodes = dataSet.nodes
+                .findAll { KNode n -> n.kind != "endpoints" }
+                .collect { KNode n -> asMap(n) }
+        def edges = dataSet.edges.collect { KEdge e -> asMap(e) }
         
         response.writer.println "var _nodes = ${asJsonString(nodes)};"
         response.writer.println "var _edges = ${asJsonString(edges)};"

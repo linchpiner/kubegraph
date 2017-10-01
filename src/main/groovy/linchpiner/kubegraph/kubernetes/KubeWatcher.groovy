@@ -7,13 +7,17 @@ import io.kubernetes.client.apis.CoreV1Api
 import io.kubernetes.client.apis.ExtensionsV1beta1Api
 import io.kubernetes.client.util.Watch
 import linchpiner.kubegraph.model.DataSet
+import linchpiner.kubegraph.model.KEndpoint
+import linchpiner.kubegraph.map.ModelMap
 import linchpiner.kubegraph.model.KNode
+import linchpiner.kubegraph.model.KPod
 import linchpiner.kubegraph.model.Change.Type
 
 import java.util.prefs.FileSystemPreferences.NodeCreate
 
 import com.google.gson.reflect.TypeToken
 import groovy.transform.TupleConstructor
+import groovy.util.ObjectGraphBuilder.DefaultNewInstanceResolver
 import groovy.util.logging.Slf4j
 import io.kubernetes.client.models.V1Pod
 import io.kubernetes.client.models.V1Node
@@ -21,6 +25,9 @@ import io.kubernetes.client.models.V1ReplicationController
 import io.kubernetes.client.models.V1Service
 import io.kubernetes.client.models.V1beta1ReplicaSet
 import io.kubernetes.client.models.AppsV1beta1Deployment
+import io.kubernetes.client.models.V1EndpointAddress
+import io.kubernetes.client.models.V1Endpoints
+import io.kubernetes.client.models.V1Event
 import java.util.concurrent.TimeUnit
 
 /**
@@ -34,12 +41,16 @@ import java.util.concurrent.TimeUnit
 @Slf4j
 class KubeWatcher {
 
-    def config = "./config"
+    def config = "config"
     String namespace = "default"
     int timeout = 0
     
+    def links = [
+        podsToNodes: true,
+        podsToRCs:   true,
+    ]
+    
     ApiClient client
-    Boolean doWatch = Boolean.TRUE
     
     KubeWatcher() {
         client = Config.fromConfig(config)
@@ -48,82 +59,106 @@ class KubeWatcher {
     }
     
     def nodes() {
-        watch  (call: v1Api.listNodeCall(null, null, null, null, timeout, doWatch, null, null),
-                type: new TypeToken<Watch.Response<V1Node>>(){}.getType()) { item, node ->
+        watch(call: v1Api.listNodeCall(null, null, null, null, timeout, true, null, null),
+              type: new TypeToken<Watch.Response<V1Node>>(){}.getType()) { item, node ->
         }
     }
 
     def pods() {
-        watch  (call: v1Api.listNamespacedPodCall(namespace, null, null, null, null, timeout, doWatch, null, null),
-                type: new TypeToken<Watch.Response<V1Pod>>(){}.getType()) { item, w ->
-              
-            def node = item.object.spec.nodeName
-            if (node) ds.link(w.uid, node, "node")
+        watch(call: v1Api.listNamespacedPodCall(namespace, null, null, null, null, timeout, true, null, null),
+              type: new TypeToken<Watch.Response<V1Pod>>(){}.getType()) { item, KPod pod ->
+            
+            V1Pod object = item.object  
                 
-            def owners = item.object.metadata.ownerReferences
-            owners?.each { owner ->
-                //ds.link(w.uid, owner.name, owner.kind.toLowerCase())
-                ds.link(w.uid, owner.uid)
+            // phase
+            pod.phase = object.status.phase.toLowerCase() 
+                
+            // link to node
+            def node = object.spec.nodeName
+            if (links.podsToNodes && node) {  
+                ds.link(pod.uid, node, "node")
+            }
+                
+            // link to owners
+            def owners = object.metadata.ownerReferences
+            if (links.podsToRCs) {
+                owners?.each { owner ->
+                    ds.link(owner.uid, pod.uid)
+                }
             }
                 
         }
     }
     
     def rcs() {
-        watch  (call: v1Api.listNamespacedReplicationControllerCall(namespace, null, null, null, null, timeout, doWatch, null, null),
-                type: new TypeToken<Watch.Response<V1ReplicationController>>(){}.getType()) { item, w ->
+        watch(call: v1Api.listNamespacedReplicationControllerCall(namespace, null, null, null, null, timeout, true, null, null),
+              type: new TypeToken<Watch.Response<V1ReplicationController>>(){}.getType()) { item, w ->
         }
     }
     
     def rss() {
-        watch  (call: extensionsV1beta1Api.listNamespacedReplicaSetCall(namespace, null, null, null, null, timeout, doWatch, null, null),
-                type: new TypeToken<Watch.Response<V1beta1ReplicaSet>>(){}.getType()) { item, w ->
+        watch(call: extensionsV1beta1Api.listNamespacedReplicaSetCall(namespace, null, null, null, null, timeout, true, null, null),
+              type: new TypeToken<Watch.Response<V1beta1ReplicaSet>>(){}.getType()) { item, w ->
                 
             def owners = item.object.metadata.ownerReferences
             owners?.each { owner ->
-                //ds.link(w.uid, owner.name, owner.kind.toLowerCase())
-                ds.link(w.uid, owner.uid)
+                ds.link(owner.uid, w.uid)
             }
     
         }
     }
     
     def deployments() {
-        watch  (call: extensionsV1beta1Api.listNamespacedDeploymentCall(namespace, null, null, null, null, timeout, doWatch, null, null),
-                type: new TypeToken<Watch.Response<AppsV1beta1Deployment>>(){}.getType()) { item, w ->
+        watch(call: extensionsV1beta1Api.listNamespacedDeploymentCall(namespace, null, null, null, null, timeout, true, null, null),
+              type: new TypeToken<Watch.Response<AppsV1beta1Deployment>>(){}.getType()) { item, w ->
         }
     }
 
     def services() {
-        watch  (call: v1Api.listNamespacedServiceCall(namespace, null, null, null, null, timeout, doWatch, null, null),
-                type: new TypeToken<Watch.Response<V1Service>>(){}.getType()) { item, w ->
-/*                
-            v1Api.listNamespacedEndpoints(namespace, null, null, null, null, timeout, false)
-                .items
-                .find { endpoint -> endpoint.metadata.name == w.name }?.subsets?.find { true }?.addresses?.each { addr ->
-                    def uid = addr?.targetRef?.uid
-                    if (uid != null) ds.link(w.uid, uid)
-                }
-*/                
+        watch(call: v1Api.listNamespacedServiceCall(namespace, null, null, null, null, timeout, true, null, null),
+              type: new TypeToken<Watch.Response<V1Service>>(){}.getType()) { item, w ->
         }
+    }
+    
+    def endpoints() {
+        watch(call: v1Api.listNamespacedEndpointsCall(namespace, null, null, null, null, timeout, true, null, null),
+              type: new TypeToken<Watch.Response<V1Endpoints>>(){}.getType()) { Watch.Response<V1Endpoints> item, KEndpoint endpoint ->
+            item.object.subsets?.find { true }?.addresses?.each { V1EndpointAddress addr ->
+                endpoint.uids.add(addr?.targetRef?.uid)
+            }
+        }
+    }
+    
+    def events() {
+        watch(call: v1Api.listNamespacedEventCall(namespace, null, null, null, null, timeout, true, null, null),
+              type: new TypeToken<Watch.Response<V1Event>>(){}.getType()) { item, w ->
+            log.debug "${item.object}"
+        }
+    }
+    
+    def createWatch(args) {
+        return Watch.createWatch(client, args['call'], args['type'])
     }
     
     def watch(args, Closure c = null) {
-        def watch = Watch.createWatch(client, args['call'], args['type'])
-        watch.each { item -> toDataSet(item, c) }
+        createWatch(args).each { item -> toDataSet(item, c) }
     }
     
-    def toDataSet(item, c) {
+    def toDataSet(item, Closure c) {
         def object = item.object
-        KNode w = new KNode(
-                uid: object.metadata.uid, 
-                kind: object.kind.toLowerCase(), 
-                name: object.metadata.name,
-                version: Long.valueOf(object.metadata.resourceVersion))
-        toDataSetMethod(item, w) 
+        def kind   = object.kind.toLowerCase()
+        
+        KNode w   = ModelMap.classForKind(kind).newInstance()
+        w.uid     = object.metadata.uid 
+        w.kind    = kind 
+        w.name    = object.metadata.name
+        w.version = Long.valueOf(object.metadata.resourceVersion)
+        
         if (c != null) {
             c.call(item, w)
         }
+
+        toDataSetMethod(item, w) 
         log.debug "${item.type} ${w.kind} ${w.name}@${w.version}"
     }
     

@@ -33,7 +33,7 @@ class HtmlChangeConsumer implements ChangeConsumer {
         js.append(getClass().getResource("play.js").text)
         def engine = new GStringTemplateEngine()
         def template = getClass().getResource("main.html").text
-        def bindings = [ javascript: js.toString() ]
+        def bindings = [ javascript: js.toString(), mode: "play" ]
         file.text = engine.createTemplate(template).make(bindings).toString()
         log.info "HTML saved to '${file}'"
     }
