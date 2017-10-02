@@ -1,7 +1,6 @@
-package linchpiner.kubegraph
+package linchpiner.kubegraph.map
 
 import spock.lang.Specification
-import linchpiner.kubegraph.map.ModelMap
 import linchpiner.kubegraph.model.*
 
 class ModelMapSpec extends Specification {

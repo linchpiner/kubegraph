@@ -1,9 +1,7 @@
-package linchpiner.kubegraph
+package linchpiner.kubegraph.model
 
 import java.beans.ConstructorProperties
 
-import linchpiner.kubegraph.model.KNode
-import linchpiner.kubegraph.model.KPod
 import spock.lang.Specification
 
 class KNodeSpec extends Specification {
