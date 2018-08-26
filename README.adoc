@@ -14,7 +14,7 @@ Create Replication Controller and Deployment, scale the Deployment up and down, 
 and, finally, delete both Replication Controller and Deployment.
 link:{kubegraph}/example2.html[Example 2]::
 Install link:https://github.com/microservices-demo/microservices-demo[Sock Shop application] and then delete it.
-link:{kubegraph]/example3.html[Example 3]::
+link:{kubegraph}/example3.html[Example 3]::
 Install link:https://github.com/microservices-demo/microservices-demo[Sock Shop application] and keep it running.
 
 ## Motivation
